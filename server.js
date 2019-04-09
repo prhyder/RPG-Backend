@@ -11,7 +11,7 @@ import skillRoutes from "./routes/skill.server.route";
 //create instances
 const app = express();
 
-const API_PORT = process.env.API_PORT || 3002;
+const API_PORT = process.env.PORT || 5000;
 
 //connect with mongoose
 const dbRoute = getSecret("dbUri");
