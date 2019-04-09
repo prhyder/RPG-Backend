@@ -2,7 +2,6 @@ import express from "express";
 import bodyParser from "body-parser";
 import logger from "morgan";
 import mongoose from "mongoose";
-import { getSecret } from "./secrets";
 
 // import routes
 import magicTypeRoutes from "./routes/magicType.server.route";
@@ -13,13 +12,13 @@ const app = express();
 
 const API_PORT = process.env.PORT || 5000;
 
-//connect with mongoose
-const dbRoute = getSecret("dbUri");
+if (process.env.RPG_APP_MONGODB_URI) {
+    mongoose.connect(
+        process.env.RPG_APP_MONGODB_URI,
+        { useNewUrlParser: true }
+    );
+}
 
-mongoose.connect(
-    dbRoute,
-    { useNewUrlParser: true }
-);
 let db = mongoose.connection;
 db.once("open", () => console.log("connected to the database."));
 //check whether connection to the database is successful
