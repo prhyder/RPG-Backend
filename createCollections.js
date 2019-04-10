@@ -2,14 +2,18 @@ import async from "async";
 //import mongoose from "mongoose";
 import MagicType from "./models/magicType.server.model";
 import Skill from "./models/skill.server.model";
-import { getSecret } from "./secrets";
 
 console.log("This script populates Magic Types and Skills.");
 
 var mongoose = require("mongoose");
 
-var mongoDB = getSecret("dbUri");
-mongoose.connect(mongoDB);
+if (process.env.RPG_APP_MONGODB_URI) {
+    mongoose.connect(
+        process.env.RPG_APP_MONGODB_URI,
+        { useNewUrlParser: true }
+    );
+}
+
 mongoose.Promise = global.Promise;
 var db = mongoose.connection;
 mongoose.connection.on("error", console.error.bind(console, "MongoDB connection error:"));
